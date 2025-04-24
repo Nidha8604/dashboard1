@@ -16,7 +16,7 @@ df = load_data()
 
 # Feature selection
 features = ["NDVI Score", "Tree Density", "Green Space Area (sq.meters)",
-            "Walking Distance (mins)", "Shade Coverage (%)", "Sleep Hours"]
+            "Walking Distance (mins)", "Shade Coverage (%)"]
 X = df[features]
 y = df["Predicted Wellbeing Score"]
 
@@ -30,16 +30,14 @@ model.fit(X_scaled, y)
 st.title("🌿 Green Space & Student Wellbeing Predictor")
 
 ndvi = st.slider("NDVI Score", 0.0, 1.0, 0.7)
-sleep = st.slider("Sleep Hours (per day)", 0, 12, 7)
 tree_density = st.slider("Tree Density", 0, 10, 5)
-area = st.number_input("Green Space Area (sq. meters)", 100, 10000, 5000)
+area = st.number_input("Green Space Area (sq. meters)", 1000, 10000, 5000)
 walk = st.slider("Walking Distance (mins)", 0, 30, 10)
 shade = st.slider("Shade Coverage (%)", 0, 100, 50)
 
 # Prediction
-input_df = pd.DataFrame([[ndvi, tree_density, area, walk, shade, sleep]],
+input_df = pd.DataFrame([[ndvi, tree_density, area, walk, shade]],
                         columns=features)
-
 
 scaled_input = scaler.transform(input_df)
 prediction = model.predict(scaled_input)
